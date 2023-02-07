@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
+
+import { artistsMngStore } from "@/stores/artistsMng";
+
 import HomeView from '../views/HomeView.vue';
 
 const router = createRouter({
@@ -23,15 +26,17 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
+
+    const store = artistsMngStore();
+
     // Redirect to login if not authenticated
     const publicPages = ['/login']; // Public pages that not need to be logged
 
     const authRequired = !publicPages.includes(to.path); // Check if is an auth required route
 
-    const auth = { user: false, returnUrl: '' }; // Use store to know if user is logged
+    const isAuthenticted = store.isAuthenticated();
 
-    if (authRequired && !auth.user) {
-        auth.returnUrl = to.fullPath;
+    if (authRequired && !isAuthenticted) {
         return '/login';
     }
 });
