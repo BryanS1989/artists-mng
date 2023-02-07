@@ -10,14 +10,30 @@ const router = createRouter({
             component: HomeView,
         },
         {
-            path: '/about',
-            name: 'about',
-            // route level code-splitting
-            // this generates a separate chunk (About.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
-            component: () => import('../views/AboutView.vue'),
+            path: '/login',
+            name: 'login',
+            component: () => import('../views/LoginView.vue'),
         },
+        {
+            path: '/:pathMatch(.*)*',
+            name: 'NotFound',
+            component: HomeView
+        }
     ],
+});
+
+router.beforeEach((to) => {
+    // Redirect to login if not authenticated
+    const publicPages = ['/login']; // Public pages that not need to be logged
+
+    const authRequired = !publicPages.includes(to.path); // Check if is an auth required route
+
+    const auth = { user: false, returnUrl: '' }; // Use store to know if user is logged
+
+    if (authRequired && !auth.user) {
+        auth.returnUrl = to.fullPath;
+        return '/login';
+    }
 });
 
 export default router;
