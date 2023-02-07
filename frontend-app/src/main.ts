@@ -14,6 +14,8 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 
+
+axios.defaults.withCredentials = true;
 app.use(VueAxios, axios);
 
 app.mount('#app');
