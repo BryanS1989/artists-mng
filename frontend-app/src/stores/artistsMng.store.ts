@@ -3,7 +3,7 @@ import type { Ref } from 'vue';
 
 import { defineStore } from 'pinia';
 
-import { BackendApi } from '@/services/axios.service'
+import { BackendApi } from '@/services/axios.service';
 
 import type User from '@/interfaces/users/user.interface';
 
@@ -21,12 +21,18 @@ export const artistsMngStore = defineStore('artistsMng', () => {
         authUser.value !== null ? 'name' in authUser.value : false
     );
 
-    async function login(user: User) {
+    function login(user: User) {
         console.log('[artistsMngStore] [actions] [login] user: ', user);
         //authUser.value = user;
 
         // Call axios Login
-        BackendApi.login(user);
+        BackendApi.login(user)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
 
         // Redirect to /
     }
