@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { onBeforeMount } from "vue";
-
+import { onBeforeMount } from 'vue';
 
 import HomePage from '../components/HomePage.vue';
 
