@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import { artistsMngStore } from "@/stores/artistsMng";
+import { artistsMngStore } from '@/stores/artistsMng.store';
 
 import HomeView from '../views/HomeView.vue';
 
@@ -20,13 +20,12 @@ const router = createRouter({
         {
             path: '/:pathMatch(.*)*',
             name: 'NotFound',
-            component: HomeView
-        }
+            component: HomeView,
+        },
     ],
 });
 
 router.beforeEach((to) => {
-
     const store = artistsMngStore();
 
     // Redirect to login if not authenticated
@@ -34,9 +33,7 @@ router.beforeEach((to) => {
 
     const authRequired = !publicPages.includes(to.path); // Check if is an auth required route
 
-    const isAuthenticted = store.isAuthenticated();
-
-    if (authRequired && !isAuthenticted) {
+    if (authRequired && !store.isAuthenticated) {
         return '/login';
     }
 });
