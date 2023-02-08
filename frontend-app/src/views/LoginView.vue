@@ -1,7 +1,18 @@
 <script setup lang="ts">
-import { onBeforeMount } from "vue";
+import { onBeforeMount } from 'vue';
 
-import LoginForm from "@/components/login/LoginForm.vue";
+import { artistsMngStore } from '@/stores/artistsMng.store';
+
+import LoginForm from '@/components/login/LoginForm.vue';
+
+import type User from '@/interfaces/users/user.interface';
+
+const login = async (user: User) => {
+    console.log('[LoginView] [login] user: ', user);
+    const store = artistsMngStore();
+
+    await store.login(user);
+};
 
 onBeforeMount(() => {
     console.log('[LoginView] [onBeforeMount]');
@@ -10,7 +21,7 @@ onBeforeMount(() => {
 
 <template>
     <h1>Login</h1>
-    <LoginForm/>
+    <LoginForm @attempt-login="login" />
 </template>
 
 <style></style>
