@@ -5,6 +5,8 @@ import { defineStore } from 'pinia';
 
 import { BackendApi } from '@/services/axios.service';
 
+import router from '@/router/index';
+
 import type User from '@/interfaces/users/user.interface';
 
 /*
@@ -15,26 +17,29 @@ import type User from '@/interfaces/users/user.interface';
         - function()s become actions
 */
 export const artistsMngStore = defineStore('artistsMng', () => {
-    const authUser: Ref<User | null> = ref(null as User | null);
+    const authUser: Ref<User> = ref({} as User);
 
-    const isAuthenticated = computed(() =>
-        authUser.value !== null ? 'name' in authUser.value : false
-    );
+    const isAuthenticated: Ref<Boolean> = ref(false);
+    // const isAuthenticated = computed(() => 'name' in authUser.value);
 
     function login(user: User) {
         console.log('[artistsMngStore] [actions] [login] user: ', user);
-        //authUser.value = user;
+        authUser.value = user;
 
         // Call axios Login
         BackendApi.login(user)
             .then((response) => {
                 console.log(response);
+                isAuthenticated.value = true;
+
+                router.push({ name: 'home' });
             })
             .catch((error) => {
                 console.log(error);
-            });
+                isAuthenticated.value = false;
 
-        // Redirect to /
+                router.push({ name: '/login' });
+            });
     }
 
     return {
