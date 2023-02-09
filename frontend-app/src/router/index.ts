@@ -25,8 +25,10 @@ const router = createRouter({
     ],
 });
 
-router.beforeEach((to) => {
+router.beforeEach((to, from) => {
     const store = artistsMngStore();
+
+    console.log('[ROUTER] [beforeEach] from: ', from, ' to: ', to);
 
     // Redirect to login if not authenticated
     const publicPages = ['/login']; // Public pages that not need to be logged
