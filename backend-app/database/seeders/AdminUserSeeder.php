@@ -20,11 +20,11 @@ class AdminUserSeeder extends Seeder
      */
     public function run()
     {
-        $adminUser = User::where('email', 'admin@artists.mng')->first();
+        $adminUser = User::where('email', ADMIN_INFO['email'])->first();
 
         if (!$adminUser) {
             $adminUser->name = ADMIN_INFO['name'];
-            $adminUser->email = ADMIN_INFO['email'];;
+            $adminUser->email = ADMIN_INFO['email'];
             $adminUser->password = Hash::make(ADMIN_INFO['password']);
 
             $adminUser->save();
