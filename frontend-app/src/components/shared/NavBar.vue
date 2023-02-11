@@ -9,8 +9,9 @@ import { RouterLink } from 'vue-router';
         <RouterLink
             to="/"
             @click.prevent="artistsMngStore().logout"
-            >Logout</RouterLink
         >
+            Logout
+        </RouterLink>
     </nav>
 </template>
 
