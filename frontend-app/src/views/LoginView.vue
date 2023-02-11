@@ -20,7 +20,6 @@ onBeforeMount(() => {
 </script>
 
 <template>
-    <h1>Login</h1>
     <LoginForm @attempt-login="login" />
 </template>
 
