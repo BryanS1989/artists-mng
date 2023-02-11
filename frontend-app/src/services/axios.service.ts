@@ -20,6 +20,12 @@ const login = (user: User) => {
     });
 };
 
+const logout = () => {
+    return axios.post('/logout').then((response) => {
+        console.log("[BackendApi] [POST] '/logout' response: ", response);
+    });
+};
+
 const getUser = () => {
     return axios.get('/api/user').then((response) => {
         console.log("[BackendApi] [GET] 'api/user' response: ", response);
@@ -29,5 +35,6 @@ const getUser = () => {
 
 export const BackendApi = {
     login,
+    logout,
     getUser,
 };
