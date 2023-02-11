@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue';
+import { ref /*, computed */ } from 'vue';
 import type { Ref } from 'vue';
 
 import { defineStore } from 'pinia';
@@ -24,15 +24,16 @@ export const artistsMngStore = defineStore('artistsMng', () => {
 
     function login(user: User) {
         console.log('[artistsMngStore] [actions] [login] user: ', user);
-        authUser.value = user;
 
         // Call axios Login
         BackendApi.login(user)
             .then((response) => {
-                console.log(response);
                 isAuthenticated.value = true;
 
-                router.push({ name: 'home' });
+                BackendApi.getUser().then((response) => {
+                    authUser.value = response.data;
+                    router.push({ name: 'home' });
+                });
             })
             .catch((error) => {
                 console.log(error);
@@ -43,6 +44,7 @@ export const artistsMngStore = defineStore('artistsMng', () => {
     }
 
     return {
+        authUser,
         isAuthenticated,
         login,
     };
