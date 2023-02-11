@@ -1,4 +1,4 @@
-import { ref /*, computed */ } from 'vue';
+import { ref, computed } from 'vue';
 import type { Ref } from 'vue';
 
 import { defineStore } from 'pinia';
@@ -19,8 +19,7 @@ import type User from '@/interfaces/users/user.interface';
 export const artistsMngStore = defineStore('artistsMng', () => {
     const authUser: Ref<User> = ref({} as User);
 
-    const isAuthenticated: Ref<Boolean> = ref(false);
-    // const isAuthenticated = computed(() => 'name' in authUser.value);
+    const isAuthenticated = computed(() => 'name' in authUser.value);
 
     function login(user: User) {
         console.log('[artistsMngStore] [actions] [login] user: ', user);
@@ -28,24 +27,33 @@ export const artistsMngStore = defineStore('artistsMng', () => {
         // Call axios Login
         BackendApi.login(user)
             .then((response) => {
-                isAuthenticated.value = true;
-
                 BackendApi.getUser().then((response) => {
                     authUser.value = response.data;
+                    localStorage.setItem(
+                        'user',
+                        JSON.stringify(authUser.value)
+                    );
                     router.push({ name: 'home' });
                 });
             })
             .catch((error) => {
                 console.log(error);
-                isAuthenticated.value = false;
-
                 router.push({ name: '/login' });
             });
+    }
+
+    function getUserFromLocalStorage() {
+        const userLocalStorageInfo = localStorage.getItem('user');
+
+        if (userLocalStorageInfo) {
+            authUser.value = JSON.parse(userLocalStorageInfo);
+        }
     }
 
     return {
         authUser,
         isAuthenticated,
         login,
+        getUserFromLocalStorage,
     };
 });
