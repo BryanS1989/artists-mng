@@ -44,4 +44,11 @@ onBeforeMount(() => {
     </form>
 </template>
 
-<style></style>
+<style scoped>
+form {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+</style>
