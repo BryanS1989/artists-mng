@@ -38,7 +38,22 @@ export const artistsMngStore = defineStore('artistsMng', () => {
             })
             .catch((error) => {
                 console.log(error);
-                router.push({ name: '/login' });
+                router.push({ name: 'login' });
+            });
+    }
+
+    function logout() {
+        console.log('[artistsMngStore] [actions] [logout]');
+
+        // Call axios Logout
+        BackendApi.logout()
+            .then((response) => {
+                localStorage.removeItem('user');
+                authUser.value = {} as User;
+                router.push({ name: 'login' });
+            })
+            .catch((error) => {
+                console.log(error);
             });
     }
 
@@ -54,6 +69,7 @@ export const artistsMngStore = defineStore('artistsMng', () => {
         authUser,
         isAuthenticated,
         login,
+        logout,
         getUserFromLocalStorage,
     };
 });
