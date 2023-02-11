@@ -7,11 +7,11 @@ import LoginForm from '@/components/login/LoginForm.vue';
 
 import type User from '@/interfaces/users/user.interface';
 
-const login = async (user: User) => {
+const login = (user: User) => {
     console.log('[LoginView] [login] user: ', user);
     const store = artistsMngStore();
 
-    await store.login(user);
+    store.login(user);
 };
 
 onBeforeMount(() => {
