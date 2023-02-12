@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::controller(ArtistController::class)->group(function () {
-        Route::get('/artist', GetArtistsController::class);
+        Route::get('/artists', GetArtistsController::class);
         Route::get('/artist/{id}', GetArtistByIdController::class);
         Route::post('/artist', PostArtistController::class);
         Route::put('/artist/{id}', UpdateArtistController::class);
