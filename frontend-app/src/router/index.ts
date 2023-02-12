@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { artistsMngStore } from '@/stores/artistsMng.store';
 
 import HomeView from '../views/HomeView.vue';
+import LoginViewVue from '../views/LoginView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +17,16 @@ const router = createRouter({
             path: '/login',
             name: 'login',
             component: () => import('../views/LoginView.vue'),
+        },
+        {
+            path: '/logout',
+            name: 'logout',
+            component: LoginViewVue,
+        },
+        {
+            path: '/artists',
+            name: 'artists',
+            component: () => import('../views/ArtistsView.vue'),
         },
         {
             path: '/:pathMatch(.*)*',
