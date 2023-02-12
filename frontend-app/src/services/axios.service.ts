@@ -33,8 +33,16 @@ const getUser = () => {
     });
 };
 
+const getArtists = () => {
+    return axios.get('/api/artists').then((response) => {
+        console.log("[BackendApi] [GET] 'api/artists' response: ", response);
+        return response;
+    });
+};
+
 export const BackendApi = {
     login,
     logout,
     getUser,
+    getArtists,
 };
