@@ -6,8 +6,9 @@ import { RouterLink } from 'vue-router';
 <template>
     <nav>
         <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/artists">Artists</RouterLink>
         <RouterLink
-            to="/"
+            to="/logout"
             @click.prevent="artistsMngStore().logout"
         >
             Logout
