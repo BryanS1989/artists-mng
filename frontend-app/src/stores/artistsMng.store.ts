@@ -29,7 +29,7 @@ export const artistsMngStore = defineStore('artistsMng', () => {
             .then((response) => {
                 BackendApi.getUser().then((response) => {
                     authUser.value = response.data;
-                    localStorage.setItem(
+                    sessionStorage.setItem(
                         'user',
                         JSON.stringify(authUser.value)
                     );
@@ -48,7 +48,7 @@ export const artistsMngStore = defineStore('artistsMng', () => {
         // Call axios Logout
         BackendApi.logout()
             .then((response) => {
-                localStorage.removeItem('user');
+                sessionStorage.removeItem('user');
                 authUser.value = {} as User;
                 router.push({ name: 'login' });
             })
@@ -57,11 +57,11 @@ export const artistsMngStore = defineStore('artistsMng', () => {
             });
     }
 
-    function getUserFromLocalStorage() {
-        const userLocalStorageInfo = localStorage.getItem('user');
+    function getUserFromSessionStorage() {
+        const userSessionStorageInfo = sessionStorage.getItem('user');
 
-        if (userLocalStorageInfo) {
-            authUser.value = JSON.parse(userLocalStorageInfo);
+        if (userSessionStorageInfo) {
+            authUser.value = JSON.parse(userSessionStorageInfo);
         }
     }
 
@@ -70,6 +70,6 @@ export const artistsMngStore = defineStore('artistsMng', () => {
         isAuthenticated,
         login,
         logout,
-        getUserFromLocalStorage,
+        getUserFromSessionStorage,
     };
 });

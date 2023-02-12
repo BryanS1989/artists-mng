@@ -6,7 +6,7 @@ import { artistsMngStore } from '@/stores/artistsMng.store';
 
 onBeforeMount(() => {
     console.log('[APP] [onBeforeMount]');
-    artistsMngStore().getUserFromLocalStorage();
+    artistsMngStore().getUserFromSessionStorage();
 });
 </script>
 
