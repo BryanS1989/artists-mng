@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-import type { Ref } from 'vue';
+import type { Ref, ComputedRef } from 'vue';
 
 import { defineStore } from 'pinia';
 
@@ -8,6 +8,7 @@ import { BackendApi } from '@/services/axios.service';
 import router from '@/router/index';
 
 import type User from '@/interfaces/users/user.interface';
+import type { ArtistList } from '@/interfaces/artists/artist.interface';
 
 /*
     In Setup Stores:
@@ -18,8 +19,12 @@ import type User from '@/interfaces/users/user.interface';
 */
 export const artistsMngStore = defineStore('artistsMng', () => {
     const authUser: Ref<User> = ref({} as User);
+    const artists: Ref<ArtistList> = ref({} as ArtistList);
 
-    const isAuthenticated = computed(() => 'name' in authUser.value);
+    const isAuthenticated: ComputedRef<Boolean> = computed(
+        () => 'name' in authUser.value
+    );
+    const artistsList: ComputedRef<ArtistList> = computed(() => artists.value);
 
     function login(user: User) {
         console.log('[artistsMngStore] [actions] [login] user: ', user);
@@ -71,6 +76,8 @@ export const artistsMngStore = defineStore('artistsMng', () => {
         BackendApi.getArtists()
             .then((response) => {
                 console.log(response.data);
+                artists.value.artists = response.data.data;
+                artists.value.count = response.data.data.length;
             })
             .catch((error) => {
                 console.log(error);
@@ -80,6 +87,7 @@ export const artistsMngStore = defineStore('artistsMng', () => {
     return {
         authUser,
         isAuthenticated,
+        artistsList,
         login,
         logout,
         getUserFromSessionStorage,
