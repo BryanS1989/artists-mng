@@ -2,16 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import { artistsMngStore } from '@/stores/artistsMng.store';
 
-import HomeView from '../views/HomeView.vue';
-import LoginViewVue from '../views/LoginView.vue';
-
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/',
             name: 'home',
-            component: HomeView,
+            component: () => import('../views/HomeView.vue'),
         },
         {
             path: '/login',
@@ -21,17 +18,49 @@ const router = createRouter({
         {
             path: '/logout',
             name: 'logout',
-            component: LoginViewVue,
+            component: () => import('../views/LoginView.vue'),
         },
         {
             path: '/artists',
             name: 'artists',
             component: () => import('../views/ArtistsView.vue'),
+            children: [
+                {
+                    path: '',
+                    name: 'artistsList',
+                    component: () =>
+                        import('../components/artists/ArtistsList.vue'),
+                },
+                {
+                    path: ':action(create)',
+                    name: 'artistsCreate',
+                    component: () =>
+                        import('../components/artists/ArtistsForm.vue'),
+                },
+                {
+                    path: ':id(\\d+)',
+                    sensitive: true,
+                    name: 'artistsProfile',
+                    component: () =>
+                        import('../components/artists/ArtistsProfile.vue'),
+                },
+                {
+                    path: ':action(edit|detail)/:id(\\d+)',
+                    name: 'artistsDetailOrEdit',
+                    component: () =>
+                        import('../components/artists/ArtistsForm.vue'),
+                },
+                {
+                    path: ':pathMatch(.*)*',
+                    name: 'NotFound',
+                    component: () => import('../views/HomeView.vue'),
+                },
+            ],
         },
         {
             path: '/:pathMatch(.*)*',
             name: 'NotFound',
-            component: HomeView,
+            component: () => import('../views/HomeView.vue'),
         },
     ],
 });
