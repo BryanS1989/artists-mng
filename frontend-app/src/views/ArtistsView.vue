@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { artistsMngStore } from '@/stores/artistsMng.store';
 import { onBeforeMount } from 'vue';
 
 onBeforeMount(() => {
     console.log('[ArtistsView] [onBeforeMount]');
-    artistsMngStore().getArtists();
 });
 </script>
 
 <template>
-    <main></main>
+    <h2>Artists</h2>
+    <router-view></router-view>
 </template>
