@@ -6,11 +6,6 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-const ADMIN_INFO = [
-    'name' => 'Admin',
-    'email' => 'admin@artists.mng',
-    'password' => 'AdminArtists2023*',
-];
 class AdminUserSeeder extends Seeder
 {
     /**
@@ -20,16 +15,26 @@ class AdminUserSeeder extends Seeder
      */
     public function run()
     {
-        $adminUser = User::where('email', ADMIN_INFO['email'])->first();
+        $ADMIN_INFO = [
+            'name' => env('ADMIN_INFO_NAME'),
+            'email' => env('ADMIN_INFO_EMAIL'),
+            'password' => env('ADMIN_INFO_PWD'),
+        ];
+
+        $adminUser = User::where('email', $ADMIN_INFO['email'])->first();
 
         if (!$adminUser) {
-            $adminUser->name = ADMIN_INFO['name'];
-            $adminUser->email = ADMIN_INFO['email'];
-            $adminUser->password = Hash::make(ADMIN_INFO['password']);
+            $adminUser = new User();
+
+            $adminUser->name = $ADMIN_INFO['name'];
+            $adminUser->email = $ADMIN_INFO['email'];
+            $adminUser->password = Hash::make($ADMIN_INFO['password']);
 
             $adminUser->save();
         } else {
-            $adminUser->password = Hash::make(ADMIN_INFO['password']);
+            $adminUser->name = $ADMIN_INFO['name'];
+            $adminUser->email = $ADMIN_INFO['email'];
+            $adminUser->password = Hash::make($ADMIN_INFO['password']);
 
             $adminUser->save();
         }
