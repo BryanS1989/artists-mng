@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue';
 
-import type { Artist } from '@/interfaces/artists/artist.interface';
+// import type { Artist } from '@/interfaces/artists/artist.interface';
 import { ArtistDefault } from '@/interfaces/artists/artist.interface';
+import { artistsMngStore } from '@/stores/artistsMng.store';
+import { Countries } from '@/enums/countries.enum';
 
 let artist = ref(ArtistDefault);
+let countries = ref(Countries);
 
 onBeforeMount(() => {
     console.log('[ArtistForm] [onBeforeMount()]');
@@ -12,6 +15,8 @@ onBeforeMount(() => {
 
 function submitArtis(): void {
     console.log('[ArtistForm] [submitArtis()]');
+
+    artistsMngStore().postArtist(artist.value);
 }
 
 function fileChange(event): void {
@@ -55,8 +60,17 @@ function fileChange(event): void {
 
             <label>
                 <p>Country:</p>
-                <select v-model="artist.country">
-                    <option :value="null">Choose a country</option>
+                <select
+                    v-model="artist.country"
+                    placeholder="Choose a country"
+                >
+                    <option
+                        v-for="country in Object.keys(countries)"
+                        :key="country"
+                        :value="countries[country]"
+                    >
+                        {{ country }}
+                    </option>
                 </select>
             </label>
         </fieldset>
