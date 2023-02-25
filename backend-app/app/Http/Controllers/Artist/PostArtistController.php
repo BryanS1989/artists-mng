@@ -28,6 +28,24 @@ class PostArtistController extends Controller
      */
     public function __invoke(ArtistRequest $request)
     {
-        //
+        $result = ['status' => 201];
+
+        // Get artist info
+        $artist = $request->validated();
+
+        try {
+            $artist = $this->artistService->postArtist($artist);
+
+            $result['message'] = "Artist " . $artist['name'] . " created correctly";
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            $result = [
+                'status' => 500,
+                'message' => "Error inserting artist"
+            ];
+        }
+
+        return response()->json($result, $result['status']);
     }
 }
