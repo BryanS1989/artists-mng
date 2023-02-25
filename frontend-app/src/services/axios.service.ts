@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import type User from '@/interfaces/users/user.interface';
+import type { Artist } from '@/interfaces/artists/artist.interface';
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost:80';
@@ -40,9 +41,17 @@ const getArtists = () => {
     });
 };
 
+const postArtist = (artist: Artist) => {
+    return axios.post('/api/artist', artist).then((response) => {
+        console.log("[BackendApi] [POST] '/api/artist' response: ", response);
+        return response;
+    });
+};
+
 export const BackendApi = {
     login,
     logout,
     getUser,
     getArtists,
+    postArtist,
 };

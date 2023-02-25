@@ -8,7 +8,7 @@ import { BackendApi } from '@/services/axios.service';
 import router from '@/router/index';
 
 import type User from '@/interfaces/users/user.interface';
-import type { ArtistList } from '@/interfaces/artists/artist.interface';
+import type { Artist, ArtistList } from '@/interfaces/artists/artist.interface';
 
 /*
     In Setup Stores:
@@ -84,6 +84,19 @@ export const artistsMngStore = defineStore('artistsMng', () => {
             });
     }
 
+    function postArtist(artist: Artist) {
+        console.log(
+            '[artistsMngStore] [actions] [postArtist] artist: ',
+            artist
+        );
+
+        BackendApi.postArtist(artist)
+            .then(() => router.push({ name: 'artists' }))
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
     return {
         authUser,
         isAuthenticated,
@@ -92,5 +105,6 @@ export const artistsMngStore = defineStore('artistsMng', () => {
         logout,
         getUserFromSessionStorage,
         getArtists,
+        postArtist,
     };
 });
