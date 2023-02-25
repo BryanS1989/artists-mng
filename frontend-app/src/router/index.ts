@@ -24,6 +24,7 @@ const router = createRouter({
             path: '/artists',
             name: 'artists',
             component: () => import('../views/ArtistsView.vue'),
+            redirect: { name: 'artistsList' },
             children: [
                 {
                     path: '',
