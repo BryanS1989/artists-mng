@@ -37,7 +37,7 @@ class ArtistRepository
      * @param array $data
      * @return Artist
      */
-    public function saveArtist(array $data): Artist
+    public function postArtist(array $data): Artist
     {
         $artist = new Artist();
 
@@ -49,6 +49,8 @@ class ArtistRepository
         $artist->email      = $data['email'];
         $artist->prefix     = $data['prefix'];
         $artist->phone      = $data['phone'];
+
+        $artist->save();
 
         return $artist->fresh();
     }
