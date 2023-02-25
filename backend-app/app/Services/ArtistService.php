@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Artist;
 use App\Repositories\ArtistRepository;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -23,6 +24,13 @@ class ArtistService
     public function getAllArtists(): Collection
     {
         return $this->artistRepository->getArtists();
+    }
+
+    /**
+     *
+     */
+    public function postArtist($artist) : Artist {
+        return $this->artistRepository->postArtist($artist);
     }
 
 }
